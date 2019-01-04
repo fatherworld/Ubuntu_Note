@@ -1,0 +1,48 @@
+自定义神经层的步骤：link(https://blog.csdn.net/Auguest26/article/details/70768663#t1)
+
+1、创建新定义的头文件include/caffe/layers/my_neuron_layer.hpp
+- 重新Layer名的方法：virtual inline const char* type() const { return “MyNeuron”; }
+- 如果只是需要cpu方法的话，可以注释掉forward/backward_gpu()这两个方法
+
+2、 创建对应src/caffe/src/my_neuron_layer.cpp的源文件
+
+    重写方法LayerSetUp，实现能从prototxt读取参数
+
+    重写方法Reshape，如果对继承类没有修改的话，就不需要重写
+
+    重写方法Forward_cpu
+
+    重写方法Backward_cpu(非必须)
+
+    如果要GPU支持，则还需要创建src/caffe/src/my_neuron_layer.cu，同理重写方法Forward_gpu/Backward_gpu(非必须)
+3、proto/caffe.proto注册新的Layer
+/***
+    ++:代表新加的行数
+    optional MyNeuronParameter my_neuron_param = 150; ###150是在optional中不存在的数值		
+    MYNEURON = 40; ###40是递增的数值，不能重复
+***/
+message LayerParameter{
+...
+++ optional MyNeuronParameter my_neuron_param = 150;
+...
+}
+...
+++ message MyNeuronParameter {
+++  optional float power = 1 [default = 2]; //自定义层的新增参数
+++ }
+...
+message V1LayerParameter{
+...
+++ MYNEURON = 40;
+...
+}
+
+4、my_neuron_layer.cpp添加注册的宏定义
+	INSTANTIATE_CLASS(MyNeuronLayer);
+	REGISTER_LAYER_CLASS(MyNeuron);
+   如果有my_neuron_layer.cu,则添加
+
+   INSTANTIATE_LAYER_GPU_FUNCS(MyNeuronLayer);
+
+5.重新编译caffe，make all
+

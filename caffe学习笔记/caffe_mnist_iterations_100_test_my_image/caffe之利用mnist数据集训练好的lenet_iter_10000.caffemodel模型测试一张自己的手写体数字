@@ -1,0 +1,135 @@
+一.前沿
+ 将自己的一张手写体图片送入训练好的caffemodels中测试
+二、具体步骤    
+
+1、首先我们要知道要利用模型lenet_iter_10000.caffemodel测试单张手写体数字所需要的文件：
+      1>待测试图片（自己画的也行，网络上下的也行，楼主是在自己ubuntu系统下用画图工具画的并命名为3.jpg，当然你如果愿意也可以弄成.dmp，.png等其他格式）；
+
+                    
+
+这是博主自己画的图片
+
+         需要注意的是，不管是什么格式，都要转换为28*28大小的黑白灰度图像，具体转化方法请自行百度（我是就拿ubuntu自带的画图工具转化的）。因为
+
+         mnist数据集都是28*28的单通道黑白灰度图像。
+
+     2>deploy.prototxt（模型描述型文件）；具体生成方法下面我们解释。
+
+     3>network.caffemodel（模型权值文件）；在本例中就是lenet_iter_10000.caffemodel
+
+     4>labels.txt（标签文件）；生成方法一会儿描述
+
+     5>mean.binaryproto（二进制图像均值文件）；生成方法下面描述（类似的还有python下的均值文件mean.pny我们这里不做考虑，想去尝试的可以自己尝试）
+
+     6>classification.bin（二进制程序名）。与二进制均值文件配合使用，只是均值文件不同的模型有不同的均值文件，而这个bin文件为通用的，就是任何模型都
+
+         可以做分类使用。但是如果采用python借口模式的测试就要自己再做一个classification分类文件，具体方法下面解释的时候给链接。
+
+2、步骤1：生成待测试图片
+
+     具体要求在1中已有说明，这里不做过多阐述。如还有人不懂如何做图请自行百度
+
+3、步骤2：生成deploy.prototxt文件
+
+     要了解deploy.prototxt文件的作用请自行百度或google，这里我们需要知道的是，他和lenet_train_test.prototxt文件类似，或者说对后者改动可得到前者。在熟悉生成文件的原理及方法之后我们可以之间在原训练prototxt网络文件中改动。在examples/mnist目录下复制一份lenet_train_test.prototxt修改并保存后得到deploy.prototxt如下：
+     name: "LeNet"  
+ 
+   
+layer {  
+  name:"data"  
+ type: "Input"  
+ top: "data"  
+ input_param { shape: { dim: 1 dim: 1 dim: 28 dim: 28 } }  
+}  
+   
+  
+layer {  
+  name:"conv1"  
+ type: "Convolution"  
+ bottom: "data"  
+ top: "conv1"  
+ convolution_param {  
+   num_output: 20  
+   kernel_size: 5  
+   stride: 1  
+   weight_filler {  
+     type: "xavier"  
+   }  
+ }  
+}  
+layer {  
+  name:"pool1"  
+ type: "Pooling"  
+ bottom: "conv1"  
+ top: "pool1"  
+ pooling_param {  
+   pool: MAX  
+   kernel_size: 2  
+   stride: 2  
+  }  
+}  
+layer {  
+  name:"conv2"  
+ type: "Convolution"  
+ bottom: "pool1"  
+ top: "conv2"  
+ convolution_param {  
+   num_output: 50  
+   kernel_size: 5  
+   stride: 1  
+   weight_filler {  
+     type: "xavier"  
+   }  
+ }  
+}  
+layer {  
+  name:"pool2"  
+ type: "Pooling"  
+ bottom: "conv2"  
+ top: "pool2"  
+ pooling_param {  
+   pool: MAX  
+   kernel_size: 2  
+   stride: 2  
+  }  
+}  
+layer {  
+  name:"ip1"  
+ type: "InnerProduct"  
+ bottom: "pool2"  
+ top: "ip1"  
+ inner_product_param {  
+   num_output: 500  
+   weight_filler {  
+     type: "xavier"  
+   }  
+ }  
+}  
+layer {  
+  name:"relu1"  
+ type: "ReLU"  
+ bottom: "ip1"  
+ top: "ip1"  
+}  
+layer {  
+  name:"ip2"  
+ type: "InnerProduct"  
+ bottom: "ip1"  
+ top: "ip2"  
+ inner_product_param {  
+   num_output: 10  
+   weight_filler {  
+     type: "xavier"  
+   }  
+ }  
+}  
+   
+ 
+layer {  
+  name:"prob"  
+ type: "Softmax"  
+ bottom: "ip2"  
+ top: "prob"  
+}  
+
+

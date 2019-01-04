@@ -1,0 +1,29 @@
+1.caffe使用的mean_是为了图像像素值能更接近（0，0）原点，当图像减掉mean值后的效果使得像素更加标准化
+
+
+
+2。注意：其中的SetMean()函数就是通过均值文件来初始化成员变量mean_。
+
+/* Load the mean file in binaryproto format. */
+void Classifier::SetMean(const string& mean_file) {
+  BlobProto blob_proto;
+  ReadProtoFromBinaryFileOrDie(mean_file.c_str(), &blob_proto);
+
+  /* Convert from BlobProto to Blob<float> */
+  Blob<float> mean_blob;
+  mean_blob.FromProto(blob_proto);
+  CHECK_EQ(mean_blob.channels(), num_channels_)
+    << "Number of channels of mean file doesn't match input layer.";
+
+  /* The format of the mean file is planar 32-bit float BGR or grayscale. */
+  std::vector<cv::Mat> channels;
+  float* data = mean_blob.mutable_cpu_data();
+  for (int i = 0; i < num_channels_; ++i) {
+    /* Extract an individual channel. */
+    cv::Mat channel(mean_blob.height(), mean_blob.width(), CV_32FC1, data);
+    channels.push_back(channel);
+    data += mean_blob.height() * mean_blob.width();
+  }
+
+
+

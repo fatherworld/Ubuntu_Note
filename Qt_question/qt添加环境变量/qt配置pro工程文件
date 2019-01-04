@@ -1,0 +1,20 @@
+INCLUDEPATH += glog/glog
+INCLUDEPATH += ffmpeg/include
+ 
+DEFINES += HISI_ARM
+if(contains(DEFINES,HISI_ARM)){
+   message("compile for arm")
+ 
+    LIBS += /home/hisiApp/glog/lib_hisi/libglog.a
+    LIBS += -L/home/hisiApp/ffmpeg/hisi_lib -lavcodec -lavdevice -lavformat -lavutil -lswscale -lavfilter
+ 
+}else{
+    message("compile for x86")
+ 
+    LIBS += /home/glog/lib/libglog.a
+    LIBS += -L/home/hisiApp/ffmpeg/lib -lavcodec -lavdevice -lavformat -lavutil -lswscale -lavfilter
+}
+
+
+/** INCLUDEPATH :添加头文件目录
+    LIBS:添加静态库和动态库，两种方式：直接添加绝对路径或者，—L库目录 -l库名称

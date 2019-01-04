@@ -1,0 +1,112 @@
+
+一,ubuntu安装caffe(cpu版本)
+1.检查电脑是否具有GPU
+
+lspci | grep -i nvidia  无显示则没有 ，有显示则有
+
+2.依次安装依赖包
+	libprotobuf-dev
+	libleveldb-dev
+	libsnappy-dev
+	libopencv-dev
+	libhdf5-dev
+	protobuf-compiler
+	libgflags-dev
+	libgoogle-golog=dev
+	liblmbd-dev
+	libatlas-base-dev
+	/**依赖库的位置为/usr/lib/x86_64-linux-gnu**/
+3.下载caffe
+	git clone git://github.com/BVLC/caffe.git
+
+4.编译caffe
+	复制Makefile.config文件,复制Makefile.config.example文件命名为Makefile.config.
+	编辑Makefile.config：
+		1.去掉CPU_ONLY:=1 前面的#号，使得CPU_ONLY :=1
+		2.配置引文文件目录(主要是HDF5的路径问题)
+			原来的路经为：
+				INCLUDE_DIRS:=$(PYTHON_INCLUDE) /usr/local/include 需要新加 /usr/include/hdf5/serial
+				LIBRAY_DIRS:=$(PYTHON_LIB) 新加 /usr/lib/x86_64-linux-gnu/hdf5/serial
+
+5.执行编译sudo make all
+	  sudo make test
+	  sudo make runtest
+
+6.修改源文件之后，需要 make clean 之后重新执行 sudo make all
+
+二/编译python接口
+
+通常为了更好的调用caffe，我们往往需要写代码，caffe具有Python和C++接口，我们较为常用Python接口，这里我将展示如何编译Python接口。
+
+1）安装pip
+因为Ubuntu16.04默认安装的是python2.7，没有pip，所以需要先安装pip，命令如下：
+
+sudo apt-get install python-pip
+
+    1
+
+2)安装Python接口依赖库
+
+在caffe根目录下，有个python文件夹，文件夹里面有个requirements.txt，里面有需要的依赖库和版本信息，按照其安装即可，在安装前，需要先安装fortran编辑器(gfrotran)，因为安装scipy库时需要它，命令如下：
+
+sudo apt-get install gfortran
+cd ~/caffe/python
+for req in $(cat requirements.txt); do pip install $req; done
+
+    1
+    2
+    3
+
+安装结束后，可以执行如下语句验证：
+
+sudo pip install -r requirements.txt
+
+    1
+
+可以看到，安装成功的，都会显示Requirement already satisfied，没安装成功的，会继续进行安装。
+
+3）将caffe根目录下的python文件夹加入到环境变量
+
+先打开配置文件bashrc
+
+sudo gedit ~/.bashrc
+
+    1
+
+在文件的最后面添加
+
+export PYTHONPATH=/home/moqi/caffe/python:$PYTHONPATH
+
+    1
+
+如下图：
+这里写图片描述
+
+注意，这里路径根据每个人电脑则不一样，例如，我的下载的caffe在/home/moqi/下面，所以路径为/home/moqi/caffe/python，你可以自行进入自己的caffe文件夹里的python目录下，输入pwd查看路径。
+
+然后执行更新配置(有时更新不起作用时，可以重启电脑就会有效)：
+
+sudo ldconfig
+
+    1
+
+4）编译python接口
+
+cd ~/caffe/
+make pycaffe(如果报 Nothing to be done for 'pycaffe'.则需要重新make clean一下)
+
+    1
+    2
+
+5)验证python接口
+进行python环境，引入caffe包，如果没有报错则安装成功！
+如下图：
+这里写图片描述
+
+至此，caffe安装成功！
+六、题外话
+
+因为系统或者安装机器的不同，可能会出现一些不一样的问题，出现问题，请粘贴问题自行google或百度，都是有答案的，切忌眼高手低。
+
+
+	

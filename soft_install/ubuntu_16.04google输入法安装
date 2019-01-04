@@ -1,0 +1,11 @@
+ubuntu 16.04中文输入法安装
+
+1.googlepinyin的安装
+	sudoapt-get install language-pack-zh-hans
+	执行该命令后，系统就会自动安装所需要的汉语语言包
+2.安装谷歌拼音输入法
+	sudoapt-get installfcitx-googlepinyin
+	执行该命令后，系统就会自动安装fcitx和goolgepinyin程序，也同时会安装一些配置fcitx的工具
+3.打开SystemSettings-->Language Support，系统会进行语言包搜索，照系统提示安装语言包。
+
+4.选择“键盘输入方式系统”为：fcitx

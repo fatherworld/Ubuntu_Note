@@ -1,0 +1,39 @@
+一.Jupyter介绍
+
+Jupyter Notebook是一个交互式笔记本，支持运行40多种编程语言。Jupyter Notebook 的本质是一个 Web 应用程序，便于创建和共享文学化程序文档，支持实时代码，数学方程，可视化和 markdown。用途包括：数据清理和转换，数值模拟，统计建模，机器学习等等。
+
+二.安装步骤
+
+环境：Docker(17.04.0-ce)、镜像Ubuntu(16.04.3)
+
+1. 更新软件列表
+root@787c084a44e4:~# apt-get update
+
+2. 安装pip(先检查是否已经安装好 python3-pip)
+root@787c084a44e4:~# apt-get install -y python3-pip
+
+3. 更新pip(-m参数将库中的pip模块作为脚本运行，--upgrade更新pip模块)
+root@787c084a44e4:~# python3 -m pip install --upgrade pip 
+
+4. 使用pip安装Jupyter
+root@787c084a44e4:~# python3 -m pip install jupyter(如果jupyter-notebook运行出现问题，可以用此命令重新安装)
+
+5. 使用pip安装python绘图库(示例需要使用)
+root@787c084a44e4:~# python3 -m pip install matplotlib 
+
+6. 创建Jupyter默认配置文件
+root@787c084a44e4:~# jupyter notebook --generate-config  
+
+7. 生成SHA1加密的密钥，保存密钥，如'sha1:XXXXXX'
+root@787c084a44e4:~# ipython 
+输入
+from notebook.auth import passwd 
+passwd() 
+
+8. 设置密钥，修改配置文件
+root@787c084a44e4:~# vim .jupyter/jupyter_notebook_config.py 
+在文件末尾增加
+c.NotebookApp.password = u'sha1:XXXXXX' 
+
+9. 运行Jupyter(--ip指定ip，--no-browser不打开浏览器，--allow-root允许root运行)
+root@787c084a44e4:~# jupyter notebook --ip=0.0.0.0 --no-browser --allow-root 

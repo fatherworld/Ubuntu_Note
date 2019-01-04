@@ -1,0 +1,48 @@
+1、准备工作
+
+安装sklearn之前，我们需要先安装numpy，scipy函数库。
+
+Numpy下载地址：http://sourceforge.net/projects/numpy/files/NumPy
+
+Scipy下载地址：http://sourceforge.net/projects/scipy/files/Scipy
+
+下载对应本机的python版本。
+2、安装sklearn机器学习库
+
+下载地址：https://github.com/scikit-learn/scikit-learn
+
+下载压缩包之后，解该压缩包压缩。使用CMD进入sklearn文件夹，执行
+
+python setup.py install
+
+即安装完成。
+3、报错解决
+
+我们在导入sklearn时往往会报错。
+
+    >>> import sklearn  
+    Traceback (most recent call last):  
+      File "<stdin>", line 1, in <module>  
+      File "sklearn/__init__.py", line 37, in <module>  
+        from . import __check_build  
+      File "sklearn/__check_build/__init__.py", line 46, in <module>  
+        raise_build_error(e)  
+      File "sklearn/__check_build/__init__.py", line 41, in raise_build_error  
+        %s""" % (e, local_dir, ''.join(dir_content).strip(), msg))  
+    ImportError: No module named _check_build  
+    ___________________________________________________________________________  
+    Contents of sklearn/__check_build:  
+    __init__.py               __init__.pyc              _check_build.c  
+    _check_build.pyx          setup.py                  setup.pyc  
+    ___________________________________________________________________________  
+    It seems that scikit-learn has not been built correctly.  
+      
+    If you have installed scikit-learn from source, please do not forget  
+    to build the package before using it: run `python setup.py install` or  
+    `make` in the source directory.  
+      
+    If you have used an installer, please check that it is suited for your  
+    Python version, your operating system and your platform.  
+
+当我们遇到这种错误时，我建议把Numpy和Scipy两个库重安下，可能之前安装的时间过长导致的。
+

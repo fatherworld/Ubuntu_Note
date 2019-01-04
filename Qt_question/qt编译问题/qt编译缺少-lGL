@@ -1,0 +1,11 @@
+Qt5.5在ubuntu下解决 GL/gl.h: No such file or directory 与 cannot find -lG
+
+1、缺少头文件
+
+error: GL/gl.h: No such file or directory
+执行
+sudo apt-get install mesa-common-dev
+2、编译出现如下错误提示：
+/usr/bin/ld: cannot find -lGL
+执行下面命令解决：
+sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev

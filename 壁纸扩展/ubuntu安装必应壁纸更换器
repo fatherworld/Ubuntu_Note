@@ -1,0 +1,41 @@
+方法 1: 使用 Utkarsh Gupta Shell 脚本
+	这个小型 Python 脚本会自动下载并将桌面壁纸更改为当天的必应照片。该脚本在机器启动时自动运行，并工作于 GNU/Linux 上的 Gnome 或 Cinnamon 环境。它不需要手动工作，安装程序会为你做所有事情。
+
+
+从 2.0+ 版本开始，该脚本的安装程序就可以像普通的 Linux 二进制命令一样工作，它会为某些任务请求 sudo 权限。
+
+只需克隆仓库并切换到项目目录，然后运行 shell 脚本即可安装必应桌面墙纸更换器。
+
+	$ https://github.com/UtkarshGpta/bing-desktop-wallpaper-changer/archive/master.zip
+$ unzip master
+$ cd bing-desktop-wallpaper-changer-master
+
+运行 installer.sh 使用 --install 选项来安装必应桌面墙纸更换器。它会下载并设置必应照片为你的 Linux
+终端界面如下:
+	$ ./installer.sh --install
+
+Bing-Desktop-Wallpaper-Changer
+BDWC Installer v3_beta2
+
+GitHub: 
+Contributors: 
+.
+.
+[sudo] password for daygeek: ******
+.
+Where do you want to install Bing-Desktop-Wallpaper-Changer?
+   Entering 'opt' or leaving input blank will install in /opt/bing-desktop-wallpaper-changer
+   Entering 'home' will install in /home/daygeek/bing-desktop-wallpaper-changer
+  Install Bing-Desktop-Wallpaper-Changer in (opt/home)? :Press Enter
+
+Should we create bing-desktop-wallpaper-changer symlink to /usr/bin/bingwallpaper so you could easily execute it?
+  Create symlink for easy execution, e.g. in Terminal (y/n)? : y
+
+Should bing-desktop-wallpaper-changer needs to autostart when you log in? (Add in Startup Application)
+  Add in Startup Application (y/n)? : y
+.
+.
+Executing bing-desktop-wallpaper-changer...
+
+
+Finished!!

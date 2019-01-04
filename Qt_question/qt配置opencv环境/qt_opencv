@@ -1,0 +1,29 @@
+ubuntu+openCV+qt安装配置
+
+1.安装qtcreator5.6(https://blog.csdn.net/keith_bb/article/details/51533584)
+
+2.安装opencv,(sudo apt-get install libopencv-dev)
+
+3.我的主机安装opencv 的 .a 和.so文件的目录为/usr/lib/x86_64-linux-gnu。
+
+4.还没结束，最后还得配置好opencv的环境变量。
+	sudo gedit /etc/ld.so.conf.d/opencv.conf 
+		在opencv.conf中添加opencv的.a目录即 /usr/lib/x86_64-linux-gnu。保存推出sudo ldconfig
+	接着配置环境变量：sudo gedit /etc/bash.bashrc
+		在bash.bashrc配置
+			到这个文件的最后，写入 
+			PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig export PKG_CONFIG_PATH
+
+
+5.在qtcreator的.pro文件中添加
+	(头文件库路径)
+	INCLUDEPATH += /usr/include \
+                /usr/include/opencv2 \
+                /usr/include/opencv
+	(动态库和静态库目录)
+	LIBS += /usr/lib/x86_64-linux-gnu/libopencv_highgui.so \
+        /usr/lib/x86_64-linux-gnu/libopencv_core.so    \
+        /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so
+
+	
+
