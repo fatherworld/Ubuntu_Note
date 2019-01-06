@@ -1,0 +1,12 @@
+
+git：致命无法自动检测电子邮件地址
+
+我只是不能在Ubuntu 18.04上提交git 错误讯息是
+
+    git：致命的无法自动检测电子邮件地址（“有一些错误电子邮件”） 我尝试使用和不使用 - 全局选项设置user.name和git-config user.mail但没有任何作品
+
+
+問題解決：
+	git config --global user.email 1149144318@qq.com@domain.com (加了@domain.com)
+	git config --global user.name "your name" (ubuntu的用戶名)
+
