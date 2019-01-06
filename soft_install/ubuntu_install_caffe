@@ -12,7 +12,7 @@ lspci | grep -i nvidia  无显示则没有 ，有显示则有
 	libhdf5-dev
 	protobuf-compiler
 	libgflags-dev
-	libgoogle-golog=dev
+	libgoogle-glog-dev
 	liblmbd-dev
 	libatlas-base-dev
 	/**依赖库的位置为/usr/lib/x86_64-linux-gnu**/

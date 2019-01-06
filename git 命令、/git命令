@@ -6,6 +6,23 @@
 将新分支push 到github, git push origin dev
 删除分支dev, git branch -D dev
 
+版本回退 git reset -- hard "版本号前4位"
 git fetch origin test /切换到本地test分支 ，然后拉取远程的origin test分支，该命令fetch只是会拉取你上一个提交的版本，不能拉取其他人在该分支上提交的内容
 
 git pull origin test /切换到本地test分支 ，然后拉取远程的origin test分支，该命令pull不仅会拉取你上一个提交的版本，而且拉取其他人在该分支上提交的内容
+
+
+撤销修改(撤销尚在stage中未被提交(commit)的修改):link https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374831943254ee90db11b13d4ba9a73b9047f4fb968d000
+       你可以发现，Git会告诉你，git checkout -- file可以丢弃工作区的修改：
+
+	$ git checkout -- readme.txt
+
+	命令git checkout -- readme.txt意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：
+
+	一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+
+	一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+
+	总之，就是让这个文件回到最近一次git commit或git add时的状态。	
+/*****Untracked files:表示没有还没有add到stage的文件****************************/
+

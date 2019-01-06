@@ -1,0 +1,48 @@
+FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用LGPL或GPL许可证。它提供了录制、转换以及流化音视
+频的完整解决方案。它包含了非常先进的音频/视频编解码库libavcodec，为了保证高可移植性和编解码质量，libavcodec里很多codec
+都是从头开发的。
+
+下面是安装教程
+首先创建一个install-ffmpeg.sh文件写以下内容 
+	sudo
+ apt-get install build-essential git-core checkinstall yasm texi2html 
+libvorbis-dev libx11-dev libvpx-dev libxfixes-dev zlib1g-dev pkg-config 
+netcat libncurses5-dev
+
+FFMPEG_VERSION=2.3.3
+
+cd /usr/local/src
+if [ ! -d "/usr/local/src/ffmpeg-${FFMPEG_VERSION}" ]; then
+  sudo wget "http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2"
+  sudo tar -xjf "ffmpeg-${FFMPEG_VERSION}.tar.bz2"
+fi
+
+cd "ffmpeg-${FFMPEG_VERSION}"
+sudo ./configure --enable-version3 --enable-postproc --enable-libvorbis --enable-libvpx
+sudo make
+sudo checkinstall --pkgname=ffmpeg --pkgversion="5:${FFMPEG_VERSION}" --backup=no --deldoc=yes --default
+
+执行命令
+
+chmod +x install-ffmpeg.sh
+
+如果提示：Operationnot permitted，则用root账号执行。
+
+执行安装命令
+
+./install-ffmpeg.sh
+
+查看是否安装成功
+
+ffmpeg –version
+
+成功则出现以下信息
+
+
+
+如果不成功则重新检查install-ffmpeg.sh文件的内容是否正确，不正确的话修改正确后重新安装即可
+
+如果提示中有
+” apt-get -f install “的话，就执行apt-get -f install，然后重新安装
+
+
