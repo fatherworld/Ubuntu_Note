@@ -1,48 +1,27 @@
-FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用LGPL或GPL许可证。它提供了录制、转换以及流化音视
-频的完整解决方案。它包含了非常先进的音频/视频编解码库libavcodec，为了保证高可移植性和编解码质量，libavcodec里很多codec
-都是从头开发的。
+二、安装ffmpeg第一步：是下载ffmpeg： http://ffmpeg.org/releases/，最新版本即可。
+第二步：安装依赖，运行命令：sudo apt-get -y install libass-dev libfreetype6-dev libmp3lame-dev libtheora-dev libvorbis-dev libopus-dev libx264-dev yasm安装依赖的时候，发现一些编译教程说的不一样，这里贴出了我的，如果不行可以换换其他的试试。
+第三部：编译ffmpeg。首先解压缩，然后cd到解压目录，依次执行：
+./configure --enable-shared --prefix=/home/*******/ffmpeg(ffmpeg的绝对目录)
+make
+makeinstall
+第四步：配置。配置是为了执行bin目录下的可执行文件。执行命令： vim /etc/ld.so.conf.d/ffmpeg.conf 添加内容到文件： /home/*******/ffmpeg/lib ，然后保存并退出执行 sudo ldconfig 使配置生效现在可以执行 ./ffmpeg -version ，如果不报错就成功了。三、Qt中使用ffmpeg可以参考这个：http://blog.yundiantech.com/?log=blog&id=33我的配置是这样的：
+INCLUDEPATH += /home/******/ffmpeg/include \
+               #/home/******/SDL2/include \
+LIBS += /home/******/ffmpeg/lib/libavcodec.so \
+        /home/******/ffmpeg/lib/libavdevice.so \
+        /home/******/ffmpeg/lib/libavfilter.so \
+        /home/******/ffmpeg/lib/libavformat.so \
+        /home/******/ffmpeg/lib/libavutil.so \
+        /home/******/ffmpeg/lib/libswresample.so \
+        /home/******/ffmpeg/lib/libswscale.so \
+        #/home/******/SDL2/lib/x86/SDL2.lib
+关于sdl还没开始研究，先注释掉。将路径全部替换为绝对路径。将以.lib结尾的文件名改为lib开始的.so文件名。在include的时候，还需要加上extern C标志，因为的是c++的编译器，如下：
+extern "C"
+{
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
+#include "libavdevice/avdevice.h"
+}
 
-下面是安装教程
-首先创建一个install-ffmpeg.sh文件写以下内容 
-	sudo
- apt-get install build-essential git-core checkinstall yasm texi2html 
-libvorbis-dev libx11-dev libvpx-dev libxfixes-dev zlib1g-dev pkg-config 
-netcat libncurses5-dev
-
-FFMPEG_VERSION=2.3.3
-
-cd /usr/local/src
-if [ ! -d "/usr/local/src/ffmpeg-${FFMPEG_VERSION}" ]; then
-  sudo wget "http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2"
-  sudo tar -xjf "ffmpeg-${FFMPEG_VERSION}.tar.bz2"
-fi
-
-cd "ffmpeg-${FFMPEG_VERSION}"
-sudo ./configure --enable-version3 --enable-postproc --enable-libvorbis --enable-libvpx
-sudo make
-sudo checkinstall --pkgname=ffmpeg --pkgversion="5:${FFMPEG_VERSION}" --backup=no --deldoc=yes --default
-
-执行命令
-
-chmod +x install-ffmpeg.sh
-
-如果提示：Operationnot permitted，则用root账号执行。
-
-执行安装命令
-
-./install-ffmpeg.sh
-
-查看是否安装成功
-
-ffmpeg –version
-
-成功则出现以下信息
-
-
-
-如果不成功则重新检查install-ffmpeg.sh文件的内容是否正确，不正确的话修改正确后重新安装即可
-
-如果提示中有
-” apt-get -f install “的话，就执行apt-get -f install，然后重新安装
-
-
+/**** 如果添加了extern "C" {} ,LIBS += 配置的ffmpeg的avi.so之后依然出现 无法链接到动态库，可能是因为引用了先前安装的ffmpeg，然后程序无法准确连接到 单一的动态库。需要手动卸载先前的ffmpeg ，sudo apt-get autoremove --purge ffmpeg，并且删除对应的.so 和 .a 文件（在/usr/lib/x86_64-linux-gnu中进行删除)
