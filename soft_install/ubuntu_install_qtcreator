@@ -1,0 +1,29 @@
+开发需要，在 Linux下安装Qt Creator。我电脑装的是Ubuntu 18.04 LTS，其它的应该相同！
+1.Qt下载
+
+关于Qt下载，比较机智的同学都回去官网直接download，但是步骤相当繁琐！大家可以打开下面的链接，里面有各版本Qt，操作简单，童叟无欺！http://download.qt.io/archive/qt/
+我下载的Linux版是5.5.1，大家根据需要下载x86或x64版本
+
+2.安装
+
+首先要cd进入软件安装包的目录，然后取得安装权限，进行图形化安装，如下：
+
+1.linuxidc@linuxidc.com:~$ cd /home/linuxidc/soft 
+
+2.linuxidc@linuxidc.com:~/soft$ chmod +x qt-opensource-linux-x86-5.5.1.run 
+
+3.linuxidc@linuxidc.com:~/soft$ ./qt-opensource-linux-x86-5.5.1.run
+
+3.安装过程几乎一路next，在选择时如果需要Assistant，想学习官方源码就select all就可以了。等待安装完成
+
+4.Qt以C/C++为依托，用Python也可，先检查一下有没有gcc/g++编译器，没有的话动手安装，不多说了
+
+5.如果系统没有自带openGL库时，在做带有3D效果的界面会报错，手动安装openGL
+
+sudo apt-get install mesa-common-dev 
+
+sudo apt-get install libglu1-mesa-dev -y
+
+完成！
+
+
