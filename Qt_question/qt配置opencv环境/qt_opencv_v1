@@ -1,0 +1,50 @@
+1.这个文档的目的是基于qt_opencv_v0的，之前qt_opencv_v0是安装了opencv2.4.9的安装包，直接用sudo apt-get install libopencv-dev .
+后面为了用ffmpeg做一个只播放音频流的demo，为了害怕环境重复，删除了在/usr/lib/x86_64_linux_gnu下的所有ffmpeg相关的.a 和　.so．然后导致
+在编译caffe时候，opencv一直链接不到ffmpeg．（搞崩溃)
+
+2.解决方案：
+	放弃使用opencv２．４．９重新安装３．３．０：
+		1.下载opencv3.3.0的源码
+		２．源码目录创建install文件夹
+		3.$  cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local ..   (CMAKE_INSTALL_PREFIX表示install目录)
+		
+
+/**************
+
+make过程中可能遇到的问题：
+ 
+ 1、如果网络不好，出现ippicv_linux_20151201.tgz无法在终端下载的情况，则可以先单独下载
+    ippicv_linux_20151201.tgz之后，把其移动到终端所提示的路径（终端会提示该路径找不到文
+    件），如路径/opencv-3.2.0/3rdparty/ippicv/downloads/linux-
+    808b791a6eac9ed78d32a7666804320e/
+ 
+    移动的时候，可以另外打开一个终端操作：
+    sudo mv ippicv_linux_20151201.tgz /opencv-3.2.0/3rdparty/ippicv/downloads
+    /linux-808b791a6eac9ed78d32a7666804320e
+ 
+    如果同样有其他类似的文件无法下载，方法同上。
+ 2、如果出现如下的报错情况，请参考这篇文章解决 http://blog.csdn.net/tengxing007/article/details/54380732
+
+*************************/
+
+3.在原先的build目录下执行一下两步操作：
+ 
+$  sudo make
+$  sudo make install
+
+4.配置环境
+
+(下面这一步不配置的话，会出现　运行opencv程序时候无法链接到动态库　.opencv*.so.2等等)
+在终端中打开 /etc/ld.conf.d/opencv.conf 文件，并在最后一行添加 /usr/local/lib，如果没有这个文件那就新建一个。
+
+
+
+
+
+ (＃＃＃＃＃＃＃＃＃＃＃下面这一步还不明白，没有用也可以编译了#############)
+然后打开 /etc/bash.bashrc 文件，在最后一行中添加
+
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/opencv320/lib/pkgconfig
+export PKG_CONFIG_PATH
+
+			

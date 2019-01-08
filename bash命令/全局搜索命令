@@ -1,0 +1,9 @@
+1.sudo find / -iname "搜索名称"
+
+2.查找.a 和　.so      pkg-config opencv --libs
+
+3 .查看linux下的opencv安装版本：
+
+	pkg-config opencv --modversion
+
+

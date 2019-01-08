@@ -1,7 +1,7 @@
-二、安装ffmpeg第一步：是下载ffmpeg： http://ffmpeg.org/releases/，最新版本即可。
+二、安装ffmpeg第一步：是下载ffmpeg： http://ffmpeg.org/releases/，最新版本可能部分api更新无法使用建议3.3.5。
 第二步：安装依赖，运行命令：sudo apt-get -y install libass-dev libfreetype6-dev libmp3lame-dev libtheora-dev libvorbis-dev libopus-dev libx264-dev yasm安装依赖的时候，发现一些编译教程说的不一样，这里贴出了我的，如果不行可以换换其他的试试。
 第三部：编译ffmpeg。首先解压缩，然后cd到解压目录，依次执行：
-./configure --enable-shared --prefix=/home/*******/ffmpeg(ffmpeg的绝对目录)
+./configure --enable-shared --prefix=/home/*******/ffmpe(ffmpeg的绝对目录)
 make
 makeinstall
 第四步：配置。配置是为了执行bin目录下的可执行文件。执行命令： vim /etc/ld.so.conf.d/ffmpeg.conf 添加内容到文件： /home/*******/ffmpeg/lib ，然后保存并退出执行 sudo ldconfig 使配置生效现在可以执行 ./ffmpeg -version ，如果不报错就成功了。三、Qt中使用ffmpeg可以参考这个：http://blog.yundiantech.com/?log=blog&id=33我的配置是这样的：
@@ -25,3 +25,8 @@ extern "C"
 }
 
 /**** 如果添加了extern "C" {} ,LIBS += 配置的ffmpeg的avi.so之后依然出现 无法链接到动态库，可能是因为引用了先前安装的ffmpeg，然后程序无法准确连接到 单一的动态库。需要手动卸载先前的ffmpeg ，sudo apt-get autoremove --purge ffmpeg，并且删除对应的.so 和 .a 文件（在/usr/lib/x86_64-linux-gnu中进行删除)
+
+/***** 如果出现　ffmpeg: error while loading shared libraries: libavdevice.so.56: no such file or directory *****/
+	先　find / -name libavdevice.so.56 得到该文件的目录地址，
+然后 vim /etc/ld.so.conf 将上述目录添加到最后一行并保存退出；
+再 ldconfig 使配置生效，即可； 
