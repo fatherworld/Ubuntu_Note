@@ -1,0 +1,12 @@
+
+
+Pycharm下同一目录py文件不能相互调用？
+
+1.首先确保所在目录是Python Package而不是一般的New Stratch File
+
+Python Package下有__init___.py或自己建空的__init___.py
+
+2.pycharm不会将当前文件目录自动加入自己的sourse_path。右键make_directory as-->sources path将当前工作的文件夹加入source_path就可以了
+
+注意：py文件名不能出现空格，否则无法调用！！！(使用２比较实用）
+

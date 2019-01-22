@@ -1,0 +1,41 @@
+1.模型的性能指标:
+	1.平均绝对误差MAE,又称l1范数损失
+	2.均方误差MSE，又称l2范数损失
+	3.均方根误差，RMSE，可以是均方根误差单位与变量单位一致
+	4.决定系数R~2 score,SSR是所有预测lable值与均值的差的平方和
+			   SST是所有真实lable值与均值的差的平方和
+			   SSE是所有真实值与预测值的差的平方和
+			SST = SSR+SSE
+			R~2 = SSR/SST
+
+
+2.算法指标大揭密
+	2.1精度accuracy:预测正确的样本占总样本的比例，取值范围[0,1]，取值越大，模型预测能力越好
+		Acc(y,y~)=1/n(for i in n sum+=sign(yi,yi~))
+		其中sign(yi~,yi)= {1 yi~=yi or 0 = yi~!=yi)
+	2.2混淆矩阵(同目录下的confuseMatrix.jpg）
+	矩阵中的每一列表示表达分类分类器预测，每一行表达样本所属的label的真实值
+	矩阵中有三个方面:真实值，预测值，预测值与真实值之间的关系，任意两个可以确定第三个
+		Ture positive(TP):真实为正样本，预测值也为正样本(预测正确)
+		Ture negative(TN):真实为正样本，预测值为负样本(预测错误)
+		False positive(FP):真实为负样本，预测值为正样本(预测错误)
+		False negative(FN):真实为负样本，预测值也为负样本(预测正确)
+
+	根据混淆矩阵引生出来两个重要的指标，Recall(召回率）= TP / TP+TN  	Prediction(准确率)=TP/TP+FP
+		**Recall(召回率）即在label为正样本的情况下，预测中找出找出正样本的个数
+		**Prediction(准确率)即在预测为正样本的所有样本中，lable真实值也为正样本的个数
+
+		##example:假如某次训练分类模型的batch=20,中正样本和负样本的个数分别为10。预测的正样本个数14,负样本6，混淆矩阵如下:
+			  14	predition  6
+			 Position	Negative
+		lable
+	10	True	  8(TP)		   2(TN)
+	10	False	  6(FP)		   4(FN)
+		那么Recall = 8/10 =0.8 	Prediction = 8/14
+
+		##应用场景:
+			1.地震预测，我们希望Recall非常高，希望每次地震都可以预测出来
+			2.嫌疑人定罪，基于不错怪好人的原则，如果有时候放过了一些罪犯也是值得的，那么显然FP得小，TP得大，故prediction要大。所以牺牲了Recall也是值得的
+			3.互联网金融要扩大业务，需要多的吸引好客户，此时的Recaal与Prediction变化。此时显然TP变大，而label中的True是一定的，所以TN变小，所以Recall变小
+			4.如果该互联网公司，坏账增多，需要缩进业务，尽可能抓紧更多的坏客户，那么FN变大，而lable = false一定，所以FP变小，那么TP变大，故Prediction变大
+
