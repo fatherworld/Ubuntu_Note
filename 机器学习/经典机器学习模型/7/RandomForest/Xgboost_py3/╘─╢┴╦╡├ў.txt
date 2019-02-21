@@ -1,0 +1,12 @@
+基于树模型的另一种集成学习模型Xgboost！万千kaggle竞赛参赛者的选择。
+程序运行环境为python3.5（anaconda3版本），xgboost需要单独安装。利用文件夹内的whl，安装方式为pip install xgboost-0.7-cp35-cp35m-win_amd64.whl
+其他windows版本可以在这个网站下载 https://www.lfd.uci.edu/~gohlke/pythonlibs/#xgboost
+
+本例xg_iris.py中对比了sklearn的randomforest和xgboost模型，但是由于数据集过于简单，因此分类正确率都为100%。
+同学们可以使用这两个模型在一些较为复杂的数据集进行尝试，会发现xgb确实是一个强大而集成学习模型。
+
+
+练习作业：
+利用RandomForest_python2中的数据集，比较sklearn中的randomforest和xgboost以及python直接实现的randomforest之间的性能区别。
+
+此外，multi.py这个代码可以看出，集成学习的svm比单个svm的正确率还是有所提升的。

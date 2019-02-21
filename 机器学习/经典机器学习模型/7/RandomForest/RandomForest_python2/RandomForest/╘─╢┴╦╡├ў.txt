@@ -1,0 +1,4 @@
+randomForest源代码网址：http://www.tuicool.com/articles/iiUfeim
+内附中文注释，如运行有问题，可以去掉中文注释。
+本代码的运行环境为python2.7，全是基于python语言完成的，没有加入拓展包。
+只是为了给大家看完整的实现逻辑，并没有调参和一些工程落地的调整，因此正确率一般。
